@@ -18,7 +18,7 @@ class SupportController extends Controller
 
     public function show(string|int $id)
     {
-        if(!$support = Support::find($id)) {
+        if (!$support = Support::find($id)) {
             return back();
         }
 
@@ -32,7 +32,7 @@ class SupportController extends Controller
 
     public function store(StoreSupportRequest $request, Support $support)
     {
-        $data = $request->all();
+        $data = $request->validated();
         $data['status'] = 'a';
 
         $support->create($data);
@@ -42,27 +42,26 @@ class SupportController extends Controller
 
     public function edit(Support $support, string|int $id)
     {
-        if(!$support = $support->where('id', $id)->first()) {
+        if (!$support = $support->where('id', $id)->first()) {
             return back();
         }
 
         return view('admin/supports.edit', compact('support'));
     }
 
-    public function update(Request $request, Support $support, string $id)
+    public function update(StoreSupportRequest $request, Support $support, string $id)
     {
-        if(!$support = Support::find($id)) {
+        if (!$support = Support::find($id)) {
             return back();
         }
-        $support->update($request->only([
-            'subject', 'body'
-        ]));
+        $support->update($request->validated());
 
         return redirect()->route('supports.index');
     }
 
-    public function destroy(string|int $id) {
-        if(!$support = Support::find($id)) {
+    public function destroy(string|int $id)
+    {
+        if (!$support = Support::find($id)) {
             return back();
         }
         $support->delete();
