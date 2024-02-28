@@ -9,7 +9,6 @@ use App\Http\Requests\StoreSupportRequest;
 use App\Models\Support;
 use App\Services\SupportService;
 use Illuminate\Http\Request;
-use Laravel\Ui\Presets\React;
 
 class SupportController extends Controller
 {
@@ -20,7 +19,6 @@ class SupportController extends Controller
     public function index(Request $request)
     {
         $supports = $this->service->getAll($request->filter);
-
         return view('admin/supports/index', compact('supports'));
     }
 
